@@ -28,10 +28,12 @@ jinja_environment = jinja2.Environment(
 login_dict = {"header": None}
 notes_dict = {"notes": []}
 
+
 # DataStore Entity Class to store user information
 class UserProperties(ndb.Model):
     username = ndb.StringProperty()
     notes = ndb.StringProperty()
+
 
 # UserLogin function to be run on every page, so user can be logged in on every page
 # and be able to add bookmarks and log out
@@ -62,36 +64,95 @@ def UserLogin(user_notes_dict=notes_dict):
     return login_dict
 
 
-# # Function to add new bookmark to user"s bookmarks property
+# Function to add new bookmark to user"s bookmarks property
 def AddUserNote(self):
     if users.get_current_user():
-        pass
-        # Get user"s bookmarks property, then add bookmark to user_bookmarks_dict, then update user"s bookmark property
-        # user_bookmarks_dict = LoadUserBookmarks()
-        # user_bookmarks_dict = AddToBookmarkDict(self, user_bookmarks_dict)
-        # DumpUserBookmarks(self, user_bookmarks_dict)
+        # Get user"s notes property, then add bookmark to user_notes_dict, then update user"s bookmark property
+        user_notes_dict = LoadUserNotes()
+        user_notes_dict = AddToBookmarkDict(self, user_notes_dict)
+        DumpUserNotes(self, user_notes_dict)
     # if user not logged in
     else:
-        pass
         # add bookmark without Load/Dump user entity json
-        # AddToBookmarkDict(self)
+        AddToNotesDict(self)
+
 
 def AddToNotesDict(self):
     note = self.request.get("note")
     notes_dict.append(note)
 
 
+def DeleteUserBookmark(self, rendered_dict):
+    if users.get_current_user():
+        user_notes_dict = LoadUsernotes()
+        user_notes_dict = DeleteFromBookmarkDict(self, user_notes_dict)
+        DumpUsernotes(self, user_notes_dict)
+        rendered_dict["notes_dict"] = user_notes_dict
+    else:
+        notes_dict = DeleteFromBookmarkDict(self)
+
+
+# Load user"s notes dictionary
+def LoadUserNotes():
+    # fetch user"s notes via username
+    user_entity_query = UserProperties.query(UserProperties.username == nickname).get()
+    user_notes_dict_json = user_entity_query.notes
+    user_notes_dict = json.loads(user_notes_dict_json)
+    return user_notes_dict
+
+
+# Dump user  user's notes dictionary
+def DumpUserNotes(self, user_notes_dict=notes_dict):
+    user_entity = UserProperties.query(UserProperties.username == nickname).get()
+    user_notes_dict_json = json.dumps(user_notes_dict)
+    user_entity.notes = user_notes_dict_json
+    user_entity.put()
+
+
+def DeleteFromBookmarkDict(self, notes_dict):
+    deleted_fact = self.request.get("deleted_fact")
+    for bookmark in notes_dict["notes"]:
+        if deleted_fact == bookmark["caption"]:
+            notes_dict["notes"].remove(bookmark)
+            break
+
+
 class HomePageHandler(webapp2.RequestHandler):
     def get(self):
         template = jinja_environment.get_template("/templates/index.html")
-        self.response.write(template.render())
+        login_dict = UserLogin()
+        self.response.write(template.render(login_dict))
+
 
 class MapMarkersHandler(webapp2.RequestHandler):
     def get(self):
         template = jinja_environment.get_template("/templates/map_markers.html")
+        login_dict = UserLogin()
         self.response.write(template.render())
+
+
+class SpeechTextHandler(webapp2.RequestHandler):
+    def get(self):
+        template = jinja_environment.get_template("/templates/speech-text.html")
+        login_dict = UserLogin()
+        rendered_dict = {"login_dict": login_dict, "notes_dict": notes_dict}
+        self.response.write(template.render(rendered_dict))
+    def post(self):
+        template = jinja_environment.get_template("/templates/bookmarks.html")
+        login_dict = UserLogin()
+        rendered_dict = {"login_dict": login_dict, "notes_dict": notes_dict}
+        # DeleteUserBookmark(self, rendered_dict)
+        if users.get_current_user():
+            user_notes_dict = LoadUserBookmarks()
+            DeleteFromBookmarkDict(self, user_notes_dict)
+            DumpUserBookmarks(self, user_notes_dict)
+            rendered_dict["notes_dict"] = user_notes_dict
+        else:
+            DeleteFromBookmarkDict(self, notes_dict)
+        self.response.write(template.render(rendered_dict))
 
 app = webapp2.WSGIApplication([
     ('/', HomePageHandler),
-    ('/map', MapMarkersHandler)
+    ('/map', MapMarkersHandler),
+    ('/speechtext', SpeechTextHandler)
 ], debug=True)
