@@ -65,7 +65,7 @@ def UserLogin(user_notes_dict=notes_dict):
 
 
 # Function to add new bookmark to user"s bookmarks property
-def AddUserNote(self, note):
+def AddUserNote(self, note, rendered_dict):
     if users.get_current_user():
         # Get user"s notes property, then add bookmark to user_notes_dict, then update user"s bookmark property
         user_notes_dict = LoadUserNotes()
@@ -137,6 +137,9 @@ class SpeechTextHandler(webapp2.RequestHandler):
         template = jinja_environment.get_template("/templates/speech-text.html")
         login_dict = UserLogin()
         rendered_dict = {"login_dict": login_dict, "notes_dict": notes_dict}
+        if users.get_current_user():
+            user_notes_dict = LoadUserNotes()
+            rendered_dict["notes_dict"] = user_notes_dict
         self.response.write(template.render(rendered_dict))
 
     def post(self):
@@ -145,6 +148,9 @@ class SpeechTextHandler(webapp2.RequestHandler):
         logging.info(notes_dict)
         note = self.request.get("note")
         rendered_dict = {"login_dict": login_dict, "notes_dict": notes_dict}
+        # if users.get_current_user():
+        #     user_notes_dict = LoadUserBookmarks()
+        #     rendered_dict["notes_dict"] = user_notes_dict
         if note == "delete":
             deleted = self.request.get("to_be_deleted")
             if users.get_current_user():
@@ -156,7 +162,14 @@ class SpeechTextHandler(webapp2.RequestHandler):
                 DeleteFromNotesDict(self, deleted, notes_dict)
         else:
             logging.info(notes_dict["notes"])
-            AddUserNote(self, note)
+            # AddUserNote(self, note, rendered_dict)
+            if users.get_current_user():
+                user_notes_dict = LoadUserNotes()
+                user_notes_dict["notes"].append(note)
+                DumpUserNotes(self, user_notes_dict)
+                rendered_dict["notes_dict"] = user_notes_dict
+            else:
+                notes_dict["notes"].append(note)
 
         self.response.write(template.render(rendered_dict))
 
