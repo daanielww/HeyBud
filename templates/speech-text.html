@@ -7,6 +7,7 @@
 
     </head>
     <body>
+        <section class = "background">
         {{login_dict['header']}}
         <h2 align="center">Speech to Text Converter</h2>
 
@@ -17,22 +18,23 @@
             </form>
                 <section class = "main-buttons">
                     <button onclick="startConverting();"><i class="fa fa-microphone"></i></button>
-                    <a class="btn btn-full" href="index.html">Home Page</a>
+                    <a class="btn btn-full" href="/">Home Page</a>
                 </section>
             <!-- </form> -->
         </section>
 
-        <div>
+        <section class = "row">
         {% for note in notes_dict['notes'] %}
         <!-- <div>{{bookmark}}</div> -->
-                    <li>{{ note }}</li>
+                    <li class="notes">{{ note }}</li>
                         <form method="post">
                             <input value="delete" type="hidden" name="note" readonly="true">
                             <input value="{{ note }}" type="hidden" name="to_be_deleted" readonly="true">
-                            <button>[-]</button>
+                            <button class="delete-button">-</button>
                         </form>
         {% endfor %}
-        </div>
+        </section>
+    </section>
 
 
         <script type="text/javascript">

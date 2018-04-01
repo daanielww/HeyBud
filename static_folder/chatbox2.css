@@ -17,6 +17,7 @@ body {
   background-size: cover;
   background-repeat: no-repeat;
   border-top: solid 1em #FFCF33;
+
 }
 
 .masthead-intro {
@@ -69,6 +70,57 @@ section > h1 {
     margin-top: 2em;
 }
 
+.home-btn {
+  margin: 0 44%;
+}
+
+.row {
+    max-width: 1140px;
+    margin: 0 auto;
+}
+
+.btn:link,
+.btn:visited{
+    display: inline-block;
+    padding: 10px 30px;
+    font-weight: 300;
+    text-decoration: none;
+    border-radius: 200px;
+    color: white;
+    transition: background-color 0.2s, border 0.2, color 0.2s;
+
+}
+
+
+.btn-full:link,
+.btn-full:visited{
+    background-color: #e6de22;
+    margin-right: 15px;
+}
+
+.btn-ghost:link,
+.btn-ghost:visited{
+    border: 1px solid #e6de22;
+    color: #e6de22;
+}
+
+.btn:hover,
+.btn:active{
+    background-color: #ef6d17;
+
+}
+
+.btn-full:hover,
+.btn-full:active{
+    border: 1px solid #ef6d17;
+}
+
+.btn-ghost:hover,
+.btn-ghost:active{
+    border: 1px solid #ef6d17;
+    color: white;
+}
+
 
 
 .masthead {
@@ -107,6 +159,10 @@ h2 {
     font-weight: bold;
 }
 
+h1 {
+  text-align: center;
+}
+
 .introduction-section,
 .location-section,
 .questions-section {
@@ -121,7 +177,7 @@ a {
     text-decoration: none;
     color: #F1C863;
 }
-  
+
 @media only screen and (max-width: 500px) {
     .masthead {
         padding: 3em 0;

@@ -132,6 +132,20 @@ class MapMarkersHandler(webapp2.RequestHandler):
         self.response.write(template.render())
 
 
+class ChatboxHandler(webapp2.RequestHandler):
+    def get(self):
+        template = jinja_environment.get_template("/templates/chatbox2.html")
+        login_dict = UserLogin()
+        self.response.write(template.render())
+
+
+class TextSpeechHandler(webapp2.RequestHandler):
+    def get(self):
+        template = jinja_environment.get_template("/templates/opposite.html")
+        login_dict = UserLogin()
+        self.response.write(template.render())
+
+
 class SpeechTextHandler(webapp2.RequestHandler):
     def get(self):
         template = jinja_environment.get_template("/templates/speech-text.html")
@@ -176,5 +190,7 @@ class SpeechTextHandler(webapp2.RequestHandler):
 app = webapp2.WSGIApplication([
     ('/', HomePageHandler),
     ('/map', MapMarkersHandler),
-    ('/speechtext', SpeechTextHandler)
+    ('/speechtext', SpeechTextHandler),
+    ('/chatbox', ChatboxHandler),
+    ('/textspeech', TextSpeechHandler)
 ], debug=True)
