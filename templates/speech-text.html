@@ -22,14 +22,17 @@
             <!-- </form> -->
         </section>
 
+        <div>
         {% for note in notes_dict['notes'] %}
         <!-- <div>{{bookmark}}</div> -->
                     <li>{{ note }}</li>
                         <form method="post">
                             <input value="delete" type="hidden" name="note" readonly="true">
+                            <input value="{{ note }}" type="hidden" name="to_be_deleted" readonly="true">
                             <button>[-]</button>
                         </form>
         {% endfor %}
+        </div>
 
 
         <script type="text/javascript">

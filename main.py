@@ -51,8 +51,8 @@ def UserLogin(user_notes_dict=notes_dict):
         # if list of user entities returned by query is empty (current user doesn"t exist), make new user entity
         if user_entity_query == []:
             # bookmarks made before logging in are added to the user"s list of bookmarks
-            user_notes_dict_json = json.dumps(user_bookmarks_dict)
-            new_user = UserProperties(username=nickname, notes=notes_bookmarks_dict_json)
+            user_notes_dict_json = json.dumps(user_notes_dict)
+            new_user = UserProperties(username=nickname, notes=user_notes_dict_json)
             new_user.put()
     # if no user logged in
     else:
@@ -111,11 +111,10 @@ def DumpUserNotes(self, user_notes_dict=notes_dict):
     user_entity.put()
 
 
-def DeleteFromBookmarkDict(self, notes_dict):
-    deleted_fact = self.request.get("deleted_fact")
-    for bookmark in notes_dict["notes"]:
-        if deleted_fact == bookmark["caption"]:
-            notes_dict["notes"].remove(bookmark)
+def DeleteFromNotesDict(self, deleted_note, notes_dict):
+    for note in notes_dict["notes"]:
+        if deleted_note == note:
+            notes_dict["notes"].remove(note)
             break
 
 
@@ -146,16 +145,15 @@ class SpeechTextHandler(webapp2.RequestHandler):
         logging.info(notes_dict)
         note = self.request.get("note")
         rendered_dict = {"login_dict": login_dict, "notes_dict": notes_dict}
-
         if note == "delete":
-            DeleteUserNote(self, rendered_dict)
+            deleted = self.request.get("to_be_deleted")
             if users.get_current_user():
                 user_notes_dict = LoadUserNotes()
-                DeleteFromNoteDict(self, user_notes_dict)
+                DeleteFromNotesDict(self, deleted, user_notes_dict)
                 DumpUserNotes(self, user_notes_dict)
                 rendered_dict["notes_dict"] = user_notes_dict
             else:
-                DeleteFromNoteDict(self, notes_dict)
+                DeleteFromNotesDict(self, deleted, notes_dict)
         else:
             logging.info(notes_dict["notes"])
             AddUserNote(self, note)
