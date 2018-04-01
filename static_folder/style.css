@@ -81,7 +81,7 @@ h2:after { /*use css to put content on page, this pseudo class literally puts st
 /*------------------------links-------------------------------*/
 
 a:link,
-a:visited { 
+a:visited {
     color:#e6de22;
     text-decoration: none;
     border-bottom: 1px solid #e6de22;
@@ -97,7 +97,7 @@ a:active {
 
 /*------------------------buttons--------------------------------*/
 
-.btn:link, 
+.btn:link,
 .btn:visited,
 input[type=submit]{
     display: inline-block;
@@ -107,7 +107,7 @@ input[type=submit]{
     border-radius: 200px;
     color: white;
     transition: background-color 0.2s, border 0.2, color 0.2s;
-    
+
 }
 
 
@@ -129,19 +129,18 @@ input[type=submit]{
 input[type=submit]:hover,
 input[type=submit]:active{
     background-color: #ef6d17;
-    
+
 }
 
 .btn-full:hover,
-.btn-full:active,{
+.btn-full:active{
     border: 1px solid #ef6d17;
-    
 }
 
 .btn-ghost:hover,
 .btn-ghost:active{
     border: 1px solid #ef6d17;
-    color: white;  
+    color: white;
 }
 
 input[type=submit] {
@@ -151,7 +150,7 @@ input[type=submit] {
 /*--------------------------------------HEADER---------------------------*/
 
 header {
-     background-image:linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.8)), url('resources/img/glasses.jpg');
+     background-image:linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.8)), url('glasses.jpg');
     background-size: cover;
     background-position: center;
     height: 100vh;
@@ -159,7 +158,7 @@ header {
 }
 .title-text-box {
     position: absolute;
-    
+
     width: 1140px;
     top: 50%;
     left: 50%;
@@ -185,7 +184,7 @@ header {
     margin-left: 40px;
 }
 
-.main-nav li a:link, 
+.main-nav li a:link,
 .main-nav li a:visited {
     color: white;
     text-decoration: none;
@@ -196,7 +195,7 @@ header {
     padding: 8px 0px;
 }
 
-.main-nav li a:hover, 
+.main-nav li a:hover,
 .main-nav li a:active {
     border-bottom: 2px solid #e6de22;
 }

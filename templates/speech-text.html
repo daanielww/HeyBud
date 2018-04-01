@@ -7,18 +7,31 @@
 
     </head>
     <body>
+        {{login_dict['header']}}
         <h2 align="center">Speech to Text Converter</h2>
-        
+
         <section class = "row">
+            <form method = 'post'>
             <div id="result"></div>
             <section class = "main-buttons">
                 <button onclick="startConverting();"><i class="fa fa-microphone"></i></button>
                 <a class="btn btn-full" href="index.html">Return</a>
             </section>
+            </form>
         </section>
 
+        {% for note in notes_dict['notes'] %}
+        <!-- <div>{{bookmark}}</div> -->
+                    <li>{{ note }}</li>
+                        <form method="post">
+                            <input value="delete" type="hidden" name="note" readonly="true">
+                            <button>[-]</button>
+                        </form>
+        {% endfor %}
+
+
         <script type="text/javascript">
-            
+
             var r = document.getElementById('result');
 
             function startConverting () {
