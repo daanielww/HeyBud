@@ -28,58 +28,57 @@ jinja_environment = jinja2.Environment(
 login_dict = {"header": None}
 notes_dict = {"notes": []}
 
+# DataStore Entity Class to store user information
+class UserProperties(ndb.Model):
+    username = ndb.StringProperty()
+    notes = ndb.StringProperty()
+
 # UserLogin function to be run on every page, so user can be logged in on every page
 # and be able to add bookmarks and log out
-# def UserLogin(user_bookmarks_dict=bookmarks_dict):
-#     user = users.get_current_user()
-#     # if the user is logged in
-#     if user:
-#         nickname = user.nickname()
-#         global nickname
-#         # HTML to display username and sign out button
-#         logout_url = users.create_logout_url("/")
-#         greeting = "<p id='username' >Welcome, {}! <a id='login_link' href='{}'>Sign Out</a></p>".format(nickname, logout_url)
-#         # search DataStore for specific user, to see if this is their first login
-#         user_entity_query = UserProperties.query(UserProperties.username == nickname).fetch()
-#         # if list of user entities returned by query is empty (current user doesn"t exist), make new user entity
-#         if user_entity_query == []:
-#             # bookmarks made before logging in are added to the user"s list of bookmarks
-#             user_notes_dict_json = json.dumps(user_bookmarks_dict)
-#             new_user = UserProperties(username=nickname, bookmarks=user_bookmarks_dict_json)
-#             new_user.put()
-#     # if no user logged in
-#     else:
-#         # HTML to display sign in button
-#         login_url = users.create_login_url("/")
-#         greeting = "<a id='login_link' href='{}'>Log in to save your Notes!</a>.".format(login_url)
-#     # Dictionary to pass to template to display log in/out url
-#     login_dict = {"header": greeting}
-#     return login_dict
+def UserLogin(user_notes_dict=notes_dict):
+    user = users.get_current_user()
+    # if the user is logged in
+    if user:
+        nickname = user.nickname()
+        global nickname
+        # HTML to display username and sign out button
+        logout_url = users.create_logout_url("/")
+        greeting = "<p id='username' >Welcome, {}! <a id='login_link' href='{}'>Sign Out</a></p>".format(nickname, logout_url)
+        # search DataStore for specific user, to see if this is their first login
+        user_entity_query = UserProperties.query(UserProperties.username == nickname).fetch()
+        # if list of user entities returned by query is empty (current user doesn"t exist), make new user entity
+        if user_entity_query == []:
+            # bookmarks made before logging in are added to the user"s list of bookmarks
+            user_notes_dict_json = json.dumps(user_bookmarks_dict)
+            new_user = UserProperties(username=nickname, notes=notes_bookmarks_dict_json)
+            new_user.put()
+    # if no user logged in
+    else:
+        # HTML to display sign in button
+        login_url = users.create_login_url("/")
+        greeting = "<a id='login_link' href='{}'>Log in to save your Notes!</a>.".format(login_url)
+    # Dictionary to pass to template to display log in/out url
+    login_dict = {"header": greeting}
+    return login_dict
 
-# # DataStore Entity Class to store user information
-# class UserProperties(ndb.Model):
-#     # User Properties
-#     username = ndb.StringProperty()
-#     notes = ndb.StringProperty()
 
 # # Function to add new bookmark to user"s bookmarks property
-# def AddUserNote(self):
-#     # if user is logged in
-#     if users.get_current_user():
-#         # Get user"s bookmarks property, then add bookmark to user_bookmarks_dict, then update user"s bookmark property
-#         user_bookmarks_dict = LoadUserBookmarks()
-#         user_bookmarks_dict = AddToBookmarkDict(self, user_bookmarks_dict)
-#         DumpUserBookmarks(self, user_bookmarks_dict)
-#     # if user not logged in
-#     else:
-#         # add bookmark without Load/Dump user entity json
-#         AddToBookmarkDict(self)
+def AddUserNote(self):
+    if users.get_current_user():
+        pass
+        # Get user"s bookmarks property, then add bookmark to user_bookmarks_dict, then update user"s bookmark property
+        # user_bookmarks_dict = LoadUserBookmarks()
+        # user_bookmarks_dict = AddToBookmarkDict(self, user_bookmarks_dict)
+        # DumpUserBookmarks(self, user_bookmarks_dict)
+    # if user not logged in
+    else:
+        pass
+        # add bookmark without Load/Dump user entity json
+        # AddToBookmarkDict(self)
 
-# def AddToNotesDict(self):
-#     note = self.request.get("note")
-#     # if len(notes_dict["notes"]) == 0:
-#     notes_dict.append(note)
-#     no
+def AddToNotesDict(self):
+    note = self.request.get("note")
+    notes_dict.append(note)
 
 
 class HomePageHandler(webapp2.RequestHandler):
