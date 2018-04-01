@@ -13,7 +13,7 @@ body{
 
 .main-buttons {
     text-align: center;
-    
+
 }
 
 button{
@@ -22,9 +22,31 @@ button{
     border-radius: 50%;
     width: 100px;
     height: 100px;
-    border: 1px solid black;
-    margin-right: 40px;
 }
+
+input {
+    border: 1px solid black;
+    margin: 0 15%;
+    display: inline-block;
+    text-align: center;
+    width: 800px;
+    height: 500px;
+}
+
+.save-button {
+
+}
+
+#save {
+    display: inline-block;
+    font-size: 20px;
+    border-radius: 50%;
+    float: left;
+    margin-left: 30%;
+
+}
+
+
 
 /* ------------------------------------------------------------------------------*/
 /* ------------------------Reusable Components-----------------------------------*/
@@ -42,7 +64,7 @@ h1, h2, h3 {
 }
 
 h2 {
-    margin: 300px;
+    margin: 100px;
     font-size: 190%;
     word-spacing: 2px;
     text-align: center;
@@ -62,7 +84,7 @@ h2:after { /*use css to put content on page, this pseudo class literally puts st
 
 /* BUTTTTTTOOOOONS */
 
-.btn:link, 
+.btn:link,
 .btn:visited{
     display: inline-block;
     padding: 10px 30px;
@@ -86,11 +108,11 @@ h2:after { /*use css to put content on page, this pseudo class literally puts st
 .btn:hover,
 .btn:active{
     background-color: #ef6d17;
-    
+
 }
 
 .btn-full:hover,
 .btn-full:active{
     border: 1px solid #ef6d17;
-    
+
 }

@@ -11,13 +11,15 @@
         <h2 align="center">Speech to Text Converter</h2>
 
         <section class = "row">
-            <form method = 'post'>
-            <div id="result"></div>
-            <section class = "main-buttons">
-                <button onclick="startConverting();"><i class="fa fa-microphone"></i></button>
-                <a class="btn btn-full" href="index.html">Return</a>
-            </section>
+            <form class= "save-button" method = 'post'>
+                <input type="text" readonly="readonly" name="note" id="result" value=""></input>
+                <button id = "save" >Save Note</button>
             </form>
+                <section class = "main-buttons">
+                    <button onclick="startConverting();"><i class="fa fa-microphone"></i></button>
+                    <a class="btn btn-full" href="index.html">Home Page</a>
+                </section>
+            <!-- </form> -->
         </section>
 
         {% for note in notes_dict['notes'] %}
@@ -55,7 +57,8 @@
                                 interimTranscripts += transcript;
                             }
                         }
-                        r.innerHTML = finalTranscripts + '<span style="color:#999">' + interimTranscripts + '</span>';
+                        document.getElementById("result").value = finalTranscripts + interimTranscripts;
+                        // r.innerHTML = finalTranscripts + '<span style="color:#999">' + interimTranscripts + '</span>';
                     };
                     speechRecognizer.onerror = function (event) {
                     };
